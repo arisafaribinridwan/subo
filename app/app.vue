@@ -1,77 +1,38 @@
-<script setup>
+<script setup lang="ts">
+const title = 'Sobat Bubur'
+const description = 'Aplikasi pemesanan bubur ayam untuk sarapan yang cepat dan praktis.'
+
 useHead({
   meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+    { name: 'theme-color', content: '#24170d' }
   ],
   link: [
     { rel: 'icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
-    lang: 'en'
+    lang: 'id'
+  },
+  bodyAttrs: {
+    class: 'm-0 overflow-hidden bg-[#1f150d] font-sans'
   }
 })
-
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
 
 useSeoMeta({
   title,
   description,
   ogTitle: title,
   ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
-  twitterCard: 'summary_large_image'
+  twitterCard: 'summary'
 })
 </script>
 
 <template>
   <UApp>
-    <UHeader>
-      <template #left>
-        <NuxtLink to="/">
-          <AppLogo class="w-auto h-6 shrink-0" />
-        </NuxtLink>
-
-        <TemplateMenu />
-      </template>
-
-      <template #right>
-        <UColorModeButton />
-
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
-      </template>
-    </UHeader>
-
-    <UMain>
-      <NuxtPage />
-    </UMain>
-
-    <USeparator icon="i-simple-icons-nuxtdotjs" />
-
-    <UFooter>
-      <template #left>
-        <p class="text-sm text-muted">
-          Built with Nuxt UI • © {{ new Date().getFullYear() }}
-        </p>
-      </template>
-
-      <template #right>
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
-      </template>
-    </UFooter>
+    <div class="flex min-h-svh w-full justify-center bg-[#1f150d] bg-[linear-gradient(90deg,rgb(0_0_0_/_0.2),transparent_34%,transparent_66%,rgb(0_0_0_/_0.2))]">
+      <div class="relative min-h-svh w-full max-w-[430px] overflow-hidden bg-[#f8f9fa] shadow-[0_0_80px_rgb(0_0_0_/_0.36)]">
+        <NuxtPage />
+      </div>
+    </div>
   </UApp>
 </template>
