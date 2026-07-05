@@ -12,6 +12,7 @@ Sebuah aplikasi web interaktif *Single Page Application* (SPA) untuk menangani p
 *   **Server Engine:** Nitro (untuk *server-side routing* dan *API endpoints*).
 *   **Data Validation:** Zod (untuk skema validasi *payload* pesanan di sisi klien dan server).
 *   **State Management:** Reaktivitas bawaan Vue (`ref`, `reactive`) atau Pinia (opsional jika *state* semakin kompleks).
+*   **Layout:** Tampilan Mobile web app only, bahkan untuk desktop.
 
 ## 3. Core Features & Requirements
 
@@ -32,7 +33,7 @@ Sebuah aplikasi web interaktif *Single Page Application* (SPA) untuk menangani p
 *   **Daftar Antrean:** Menampilkan daftar pesanan masuk secara urut dari yang terbaru.
 *   **Format Tampilan:** Paragraf teks berurutan (contoh: `1. Budi : 1P(⛔Kecap) + usus 2 + ati + krupuk pisah + sambel 2`).
 *   **Logika Kondisional Teks:** Sembunyikan *item* yang bernilai 0. Sembunyikan angka kuantitas jika bernilai 1. Teks "sambel" hanya muncul jika kuantitas > 1.
-*   **Tindakan:** Tombol "Selesai" untuk menghapus pesanan dari antrean (hapus objek dari *array state*).
+*   **Tindakan:** tekan list untuk menandakan bahwa pembeli sudah bayar.
 *   **Fitur Utilitas:** Tombol "Copy Rekap" untuk menyalin seluruh daftar antrean aktif ke *clipboard*.
 *   **Notifikasi UI:** *Badge counter* berwarna merah pada Tab Penjual yang menunjukkan jumlah antrean pesanan aktif.
 
