@@ -50,7 +50,7 @@ onMounted(() => {
 
       <div class="animate-welcome-fade-in -translate-y-12 [animation-delay:400ms]">
         <UButton
-          type="button"
+          to="/pesanan"
           color="primary"
           size="xl"
           block

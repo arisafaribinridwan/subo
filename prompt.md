@@ -1,14 +1,15 @@
-title : setup layout utama
+title : buat halaman pesanan
 
 tugas :
-- buatkan setup layout utama aplikasi ini berupa Tampilan Mobile web app only, bahkan untuk desktop. agar semua user experience tetap konsisten di semua device.
-- buatkan welcome screen sesuai dengan contoh terlampir.
+- buatkan halaman pesanan sesuai dengan contoh terlampir.
 
 goal :
-- membuat layout utama aplikasi ini agar user experience tetap konsisten di semua device.
-- dapat menampilkan welcome screen sesuai dengan contoh terlampir.
+- membuat halaman pesanan bubur pelanggan.
+- dapat menampilkan halaman pesanan sesuai dengan contoh terlampir.
 
 batasan :
 - fokus pada layout utama aplikasi ini, tidak perlu membuat yang lain.
-
+- gunakan komponen nuxt ui sebisa mungkin.
+- gunakan zod sebagai validasi data. 
+- gunakan komponent form nuxt ui untuk membuat form input data pesanan.
 
