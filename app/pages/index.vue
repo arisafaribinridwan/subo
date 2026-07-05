@@ -48,13 +48,13 @@ onMounted(() => {
         </p>
       </div>
 
-      <div class="animate-welcome-fade-in [animation-delay:400ms]">
+      <div class="animate-welcome-fade-in -translate-y-12 [animation-delay:400ms]">
         <UButton
           type="button"
           color="primary"
           size="xl"
           block
-          class="relative min-h-18 justify-center overflow-hidden rounded-xl bg-[#f59e0b] text-2xl leading-8 font-extrabold tracking-normal text-[#351a00] shadow-[0_22px_44px_rgb(0_0_0/0.35)] transition-[transform,filter,box-shadow] duration-200 ease-in-out after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(90deg,transparent,rgb(255_255_255/0.28),transparent)] after:bg-size-[220%_100%] after:content-[''] after:animate-welcome-shimmer hover:brightness-[1.03] active:scale-[0.98] active:brightness-[1.08] active:shadow-[0_16px_32px_rgb(0_0_0_/_0.32)]"
+          class="relative min-h-18 justify-center overflow-hidden rounded-xl bg-[#f59e0b] text-2xl leading-8 font-extrabold tracking-normal text-[#351a00] shadow-[0_22px_44px_rgb(0_0_0/0.35)] transition-[transform,filter,box-shadow] duration-200 ease-in-out after:absolute after:inset-0 after:pointer-events-none after:bg-[linear-gradient(90deg,transparent,rgb(255_255_255/0.28),transparent)] after:bg-size-[220%_100%] after:content-[''] after:animate-welcome-shimmer hover:brightness-[1.03] active:scale-[0.98] active:brightness-[1.08] active:shadow-[0_16px_32px_rgb(0_0_0/0.32)]"
         >
           <span class="inline-flex items-center justify-center gap-3">
             <span>Mulai Pesan</span>
