@@ -151,6 +151,10 @@ function addOrder(data: OrderSchema) {
   resetForm()
 }
 
+function setAddIntent() {
+  submitIntent.value = 'add'
+}
+
 function onSubmit(event: FormSubmitEvent<OrderSchema>) {
   if (submitIntent.value === 'add') {
     addOrder(event.data)
@@ -486,7 +490,7 @@ function sendOrders() {
           icon="i-lucide-user-plus"
           label="Tambah Pesanan"
           class="min-h-14 rounded-2xl border border-muted font-bold"
-          @click="submitIntent = 'add'"
+          @click="setAddIntent"
         />
         <UButton
           type="button"
