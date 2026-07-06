@@ -6,7 +6,7 @@ const heroImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCGxsyevZ0
 
 const portionValues = ['1 Porsi', '1/2 Porsi'] as const
 const fillingValues = ['Lengkap', 'Kostum'] as const
-const toppingValues = ['Kecap', 'Krupuk', 'Kacang', 'Bawang Goreng', 'Daun Bawang'] as const
+const toppingValues = ['Kecap', 'Kacang', 'Bawang Goreng', 'Daun Bawang'] as const
 
 const orderSchema = z.object({
   customerName: z.string().trim().min(1, 'Nama pemesan wajib diisi.'),
@@ -29,7 +29,7 @@ type SateKey = keyof OrderSchema['sate']
 const toast = useToast()
 const form = useTemplateRef('orderForm')
 const submitIntent = ref<'add' | 'send'>('add')
-const sateOpen = ref(false)
+const extraMenuOpen = ref(false)
 const cart = ref<OrderSchema[]>([])
 
 const state = reactive<OrderSchema>({
@@ -107,7 +107,7 @@ function resetForm() {
     ampela: 0,
     puyuh: 0
   }
-  sateOpen.value = false
+  extraMenuOpen.value = false
 }
 
 function setFilling(value: OrderSchema['filling']) {
@@ -115,6 +115,7 @@ function setFilling(value: OrderSchema['filling']) {
 
   if (value === 'Lengkap') {
     state.omittedToppings = []
+    state.crackersSeparated = false
   }
 }
 
@@ -232,7 +233,7 @@ function sendOrders() {
             alt="Bubur ayam spesial"
             class="absolute inset-0 size-full object-cover"
           >
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
           <div class="absolute inset-x-4 bottom-4 text-white">
             <p class="mb-1 text-xs leading-4 font-bold tracking-normal uppercase text-white/80">
               Menu hari ini
@@ -276,7 +277,7 @@ function sendOrders() {
                 v-for="option in portionOptions"
                 :key="option.value"
                 type="button"
-                class="flex min-h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 p-4 text-sm leading-5 font-bold transition"
+                class="flex flex-row items-center justify-center gap-2 rounded-2xl border-2 p-4 text-sm leading-5 font-bold transition"
                 :class="state.portion === option.value ? 'border-primary bg-primary/20 text-primary' : 'border-muted bg-default hover:border-primary/50'"
                 @click="state.portion = option.value"
               >
@@ -299,7 +300,7 @@ function sendOrders() {
                 v-for="option in fillingOptions"
                 :key="option.value"
                 type="button"
-                class="flex min-h-16 items-center justify-center gap-2 rounded-2xl border-2 p-4 text-sm leading-5 font-bold transition"
+                class="flex items-center justify-center gap-2 rounded-2xl border-2 p-4 text-sm leading-5 font-bold transition"
                 :class="state.filling === option.value ? 'border-primary bg-primary/20 text-primary' : 'border-muted bg-default hover:border-primary/50'"
                 @click="setFilling(option.value)"
               >
@@ -312,119 +313,122 @@ function sendOrders() {
             </div>
           </UFormField>
 
-          <UFormField
+          <div
             v-if="state.filling === 'Kostum'"
-            name="omittedToppings"
-            label="Tanpa Topping Apa?"
+            class="rounded-3xl border border-muted bg-elevated p-4"
           >
-            <div class="rounded-3xl border border-muted bg-elevated p-4">
+            <UFormField
+              name="omittedToppings"
+              label="Tanpa Topping Apa?"
+            >
               <div class="flex flex-wrap gap-2">
                 <UButton
                   v-for="topping in toppingValues"
                   :key="topping"
                   type="button"
                   :label="topping"
-                  :icon="state.omittedToppings.includes(topping) ? 'i-lucide-check' : undefined"
-                  :color="state.omittedToppings.includes(topping) ? 'primary' : 'neutral'"
+                  :icon="state.omittedToppings.includes(topping) ? 'i-lucide-circle-minus' : undefined"
+                  :color="state.omittedToppings.includes(topping) ? 'error' : 'neutral'"
                   :variant="state.omittedToppings.includes(topping) ? 'solid' : 'outline'"
                   size="sm"
                   class="rounded-full"
                   @click="toggleOmittedTopping(topping)"
                 />
               </div>
-            </div>
-          </UFormField>
+            </UFormField>
 
-          <UFormField name="crackersSeparated">
-            <div class="flex items-center justify-between rounded-2xl border border-muted bg-default p-4">
-              <div class="flex min-w-0 items-center gap-3">
-                <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-                  <UIcon
-                    name="i-lucide-layers"
-                    class="size-5"
-                  />
-                </span>
-                <span class="text-base leading-6 font-semibold">Krupuk Dipisah</span>
-              </div>
-              <USwitch
-                v-model="state.crackersSeparated"
-                size="xl"
-                aria-label="Krupuk dipisah"
-              />
-            </div>
-          </UFormField>
-
-          <UFormField
-            name="sambalLevel"
-            label="Level Sambal"
-          >
-            <div class="flex items-center justify-between rounded-2xl border border-muted bg-default p-4 shadow-sm">
-              <div class="flex min-w-0 items-center gap-3">
-                <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-error/10 text-error">
-                  <UIcon
-                    name="i-lucide-flame"
-                    class="size-5"
-                  />
-                </span>
-                <div class="min-w-0">
-                  <p class="m-0 text-base leading-6 font-semibold">
-                    Level Sambal
-                  </p>
-                  <p class="m-0 text-xs leading-4 font-semibold text-muted">
-                    Max level 3
-                  </p>
+            <UFormField
+              name="crackersSeparated"
+              class="mt-4"
+            >
+              <div class="flex items-center justify-between rounded-2xl border border-muted bg-default p-4">
+                <div class="flex min-w-0 items-center gap-3">
+                  <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                    <UIcon
+                      name="i-lucide-layers"
+                      class="size-5"
+                    />
+                  </span>
+                  <span class="text-base leading-6 font-semibold">Krupuk Dipisah</span>
                 </div>
-              </div>
-
-              <div class="flex shrink-0 items-center gap-3">
-                <UButton
-                  type="button"
-                  icon="i-lucide-minus"
-                  color="neutral"
-                  variant="soft"
-                  size="lg"
-                  square
-                  aria-label="Kurangi level sambal"
-                  class="rounded-full"
-                  @click="changeSambal(-1)"
-                />
-                <span class="w-5 text-center text-xl leading-7 font-bold">{{ state.sambalLevel }}</span>
-                <UButton
-                  type="button"
-                  icon="i-lucide-plus"
-                  color="primary"
-                  size="lg"
-                  square
-                  aria-label="Tambah level sambal"
-                  class="rounded-full"
-                  @click="changeSambal(1)"
+                <USwitch
+                  v-model="state.crackersSeparated"
+                  size="xl"
+                  aria-label="Krupuk dipisah"
                 />
               </div>
-            </div>
-          </UFormField>
+            </UFormField>
+          </div>
 
-          <UCollapsible v-model:open="sateOpen">
+          <UCollapsible
+            v-model:open="extraMenuOpen"
+            class="flex flex-col gap-3"
+          >
             <UButton
               type="button"
               color="neutral"
               variant="soft"
               block
-              class="min-h-20 justify-between rounded-2xl border border-muted p-4 text-left"
-              @click="sateOpen = !sateOpen"
+              trailing-icon="i-lucide-chevron-down"
+              class="group min-h-20 justify-between rounded-2xl border border-muted p-4 text-left"
+              :ui="{
+                trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200'
+              }"
             >
               <span class="flex flex-col">
-                <span class="text-xl leading-7 font-extrabold text-primary">Extra Sate-Satean</span>
+                <span class="text-xl leading-7 font-extrabold text-primary">Extra menu</span>
                 <span class="text-xs leading-4 font-semibold text-muted">Lengkapi hidangan Anda</span>
               </span>
-              <UIcon
-                name="i-lucide-chevron-down"
-                class="size-5 transition-transform"
-                :class="sateOpen ? 'rotate-180' : ''"
-              />
             </UButton>
 
             <template #content>
-              <div class="mt-3 space-y-2">
+              <div class="space-y-2">
+                <UFormField name="sambalLevel">
+                  <div class="flex items-center justify-between rounded-2xl border border-muted bg-default p-4 shadow-sm">
+                    <div class="flex min-w-0 items-center gap-3">
+                      <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-error/10 text-error">
+                        <UIcon
+                          name="i-lucide-flame"
+                          class="size-5"
+                        />
+                      </span>
+                      <div class="min-w-0">
+                        <p class="m-0 text-base leading-6 font-semibold">
+                          Extra Sambal
+                        </p>
+                        <p class="m-0 text-xs leading-4 font-semibold text-muted">
+                          Max level 3
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="flex shrink-0 items-center gap-2">
+                      <UButton
+                        type="button"
+                        icon="i-lucide-minus"
+                        color="neutral"
+                        variant="soft"
+                        size="sm"
+                        square
+                        aria-label="Kurangi level sambal"
+                        class="rounded-full"
+                        @click="changeSambal(-1)"
+                      />
+                      <span class="w-5 text-center text-xl leading-7 font-bold">{{ state.sambalLevel }}</span>
+                      <UButton
+                        type="button"
+                        icon="i-lucide-plus"
+                        color="primary"
+                        size="sm"
+                        square
+                        aria-label="Tambah level sambal"
+                        class="rounded-full"
+                        @click="changeSambal(1)"
+                      />
+                    </div>
+                  </div>
+                </UFormField>
+
                 <div
                   v-for="item in sateItems"
                   :key="item.key"
