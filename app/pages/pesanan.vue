@@ -203,7 +203,7 @@ function sendOrders() {
 
 <template>
   <main class="relative h-svh overflow-hidden bg-default text-default">
-    <div class="h-full overflow-y-auto pb-40">
+    <div class="h-full overflow-y-auto pb-28">
       <header class="sticky top-0 z-40 border-b border-muted bg-default/95 px-5 py-4 shadow-sm backdrop-blur">
         <div class="flex items-center justify-between">
           <NuxtLink
@@ -479,7 +479,7 @@ function sendOrders() {
     </div>
 
     <div class="absolute inset-x-0 bottom-0 z-50 border-t border-muted bg-default/95 shadow-[0_-18px_45px_rgb(0_0_0/0.12)] backdrop-blur">
-      <div class="grid grid-cols-[minmax(0,1fr)_96px] gap-3 px-5 pt-3">
+      <div class="grid grid-cols-[minmax(0,1fr)_96px] gap-3 px-5 pb-[calc(env(safe-area-inset-bottom)+12px)] pt-3">
         <UButton
           type="submit"
           form="order-form"
@@ -503,26 +503,6 @@ function sendOrders() {
           @click="handleSendOrder"
         />
       </div>
-
-      <nav class="mt-3 grid grid-cols-2 gap-2 px-4 pb-[calc(env(safe-area-inset-bottom)+12px)] pt-2">
-        <UButton
-          type="button"
-          color="primary"
-          size="lg"
-          icon="i-lucide-shopping-basket"
-          label="Pesan Bubur"
-          class="min-h-13 rounded-full font-bold"
-        />
-        <UButton
-          type="button"
-          color="neutral"
-          variant="ghost"
-          size="lg"
-          icon="i-lucide-list"
-          label="Pesanan Saya"
-          class="min-h-13 rounded-full font-bold text-muted"
-        />
-      </nav>
     </div>
   </main>
 </template>
