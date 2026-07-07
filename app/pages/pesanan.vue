@@ -31,6 +31,7 @@ const form = useTemplateRef('orderForm')
 const submitIntent = ref<'add' | 'send'>('add')
 const extraMenuOpen = ref(false)
 const cart = ref<OrderSchema[]>([])
+const orderSummary = useOrderSummary()
 
 const state = reactive<OrderSchema>({
   customerName: '',
@@ -94,6 +95,10 @@ function cloneOrder(data: OrderSchema): OrderSchema {
   }
 }
 
+if (orderSummary.value) {
+  Object.assign(state, cloneOrder(orderSummary.value))
+}
+
 function resetForm() {
   state.customerName = ''
   state.portion = '1 Porsi'
@@ -155,14 +160,18 @@ function setAddIntent() {
   submitIntent.value = 'add'
 }
 
-function onSubmit(event: FormSubmitEvent<OrderSchema>) {
+async function openOrderSummary(data: OrderSchema) {
+  orderSummary.value = cloneOrder(data)
+  await navigateTo('/ringkasan-pesanan')
+}
+
+async function onSubmit(event: FormSubmitEvent<OrderSchema>) {
   if (submitIntent.value === 'add') {
     addOrder(event.data)
     return
   }
 
-  cart.value.push(cloneOrder(event.data))
-  sendOrders()
+  await openOrderSummary(event.data)
 }
 
 async function handleSendOrder() {
@@ -183,21 +192,7 @@ async function handleSendOrder() {
     return
   }
 
-  sendOrders()
-}
-
-function sendOrders() {
-  const total = cart.value.length
-
-  toast.add({
-    title: 'Pesanan dikirim',
-    description: `${total} pesanan bubur siap masuk antrean.`,
-    color: 'success',
-    icon: 'i-lucide-shopping-basket'
-  })
-
-  cart.value = []
-  resetForm()
+  await openOrderSummary(cart.value.at(-1)!)
 }
 </script>
 
