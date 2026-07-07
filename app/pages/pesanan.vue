@@ -39,7 +39,7 @@ const state = reactive<OrderSchema>({
   filling: 'Lengkap',
   omittedToppings: [],
   crackersSeparated: false,
-  sambalLevel: 1,
+  sambalLevel: 0,
   sate: {
     usus: 0,
     ati: 0,
@@ -105,7 +105,7 @@ function resetForm() {
   state.filling = 'Lengkap'
   state.omittedToppings = []
   state.crackersSeparated = false
-  state.sambalLevel = 1
+  state.sambalLevel = 0
   state.sate = {
     usus: 0,
     ati: 0,

@@ -36,7 +36,7 @@ interface SummaryItem {
 }
 
 const order = computed(() => orderSummary.value ?? fallbackOrder)
-const portionLabel = computed(() => order.value.portion === '1 Porsi' ? 'Porsi Besar' : 'Setengah Porsi')
+const portionLabel = computed(() => order.value.portion === '1 Porsi' ? '1 Porsi Besar' : '1/2 Porsi')
 
 const summaryItems = computed<SummaryItem[]>(() => {
   const items: SummaryItem[] = []
@@ -153,13 +153,10 @@ function confirmOrder() {
           >
           <div class="min-w-0">
             <h2 class="m-0 text-xl leading-7 font-extrabold tracking-normal text-highlighted">
-              Bubur Ayam
+              {{ order.customerName }}
             </h2>
             <p class="m-0 text-base leading-6 font-medium text-muted">
               {{ portionLabel }}
-            </p>
-            <p class="m-0 truncate text-sm leading-5 font-semibold text-muted">
-              Untuk {{ order.customerName }}
             </p>
           </div>
         </div>
@@ -192,7 +189,7 @@ function confirmOrder() {
               class="size-6 shrink-0"
             />
             <span class="text-sm leading-5 font-extrabold tracking-normal text-default">
-              Bubur lengkap tanpa extra menu
+              Bubur lengkap
             </span>
           </div>
         </div>
