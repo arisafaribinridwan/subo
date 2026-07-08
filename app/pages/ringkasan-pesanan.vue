@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { OrderSummary, SateKey } from '~/composables/useOrderSummary'
+import type { OrderSummary, OrderTopping, SateKey } from '~/composables/useOrderSummary'
 
 const orderSummary = useOrderSummary()
 const toast = useToast()
@@ -29,6 +29,15 @@ const sateLabels: Record<SateKey, string> = {
   puyuh: 'Sate Puyuh'
 }
 
+const toppingOrder: OrderTopping[] = ['Kecap', 'Kacang', 'Bawang Goreng', 'Daun Bawang']
+
+const toppingLabels: Record<OrderTopping, string> = {
+  'Kecap': 'Kecap',
+  'Kacang': 'Kacang',
+  'Bawang Goreng': 'Bawang goreng',
+  'Daun Bawang': 'Daun Bawang'
+}
+
 interface SummaryItem {
   label: string
   icon: string
@@ -37,6 +46,21 @@ interface SummaryItem {
 
 const order = computed(() => orderSummary.value ?? fallbackOrder)
 const portionLabel = computed(() => order.value.portion === '1 Porsi' ? '1 Porsi Besar' : '1/2 Porsi')
+const omittedToppingLabel = computed(() => {
+  const selectedToppings = toppingOrder
+    .filter(topping => order.value.omittedToppings.includes(topping))
+    .map(topping => toppingLabels[topping])
+
+  if (selectedToppings.length === 0) {
+    return ''
+  }
+
+  if (selectedToppings.length === 1) {
+    return `Tanpa ${selectedToppings[0]}`
+  }
+
+  return `Tanpa ${selectedToppings.slice(0, -1).join(', ')} dan ${selectedToppings.at(-1)}`
+})
 
 const summaryItems = computed<SummaryItem[]>(() => {
   const items: SummaryItem[] = []
@@ -64,9 +88,9 @@ const summaryItems = computed<SummaryItem[]>(() => {
     })
   }
 
-  for (const topping of order.value.omittedToppings) {
+  if (omittedToppingLabel.value) {
     items.push({
-      label: `Tanpa ${topping}`,
+      label: omittedToppingLabel.value,
       icon: 'i-lucide-circle-slash',
       color: 'error'
     })
