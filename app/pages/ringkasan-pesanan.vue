@@ -154,25 +154,26 @@ function confirmOrder() {
 
 <template>
   <main class="min-h-svh overflow-y-auto bg-default text-default">
-    <header class="border-b border-muted bg-default px-5 py-5 shadow-sm backdrop-blur">
-      <div class="flex items-center justify-between gap-4">
+    <header class="sticky top-0 z-40 border-b border-muted bg-default/95 px-5 py-4 shadow-sm backdrop-blur">
+      <div class="flex items-center justify-between">
         <NuxtLink
           to="/"
-          class="flex min-w-0 items-center gap-3 text-primary"
+          class="flex min-w-0 items-center gap-3"
           aria-label="Kembali ke welcome screen"
         >
-          <UIcon
-            name="i-lucide-utensils"
-            class="size-7 shrink-0"
-          />
-          <span class="truncate text-2xl leading-8 font-extrabold tracking-normal">
-            Sobat Bubur
+          <span class="grid size-10 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
+            <UIcon
+              name="i-lucide-utensils"
+              class="size-6"
+            />
           </span>
+          <h1 class="truncate text-2xl leading-8 font-extrabold tracking-normal text-primary">
+            Sobat Bubur
+          </h1>
         </NuxtLink>
 
         <UAvatar
-          :src="avatarImage"
-          alt="Profil pelanggan"
+          icon="i-lucide-user"
           size="lg"
           class="ring-2 ring-primary/25"
         />
