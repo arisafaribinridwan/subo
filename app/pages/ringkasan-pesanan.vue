@@ -13,9 +13,9 @@ const fallbackOrder: OrderSummary = {
   filling: 'Kostum',
   omittedToppings: ['Kacang'],
   crackersSeparated: true,
-  sambalLevel: 3,
+  sambalLevel: 0,
   sate: {
-    usus: 2,
+    usus: 0,
     ati: 0,
     ampela: 0,
     puyuh: 0
@@ -42,6 +42,24 @@ interface SummaryItem {
   label: string
   icon: string
   color?: 'primary' | 'error'
+}
+
+interface PriceSettings {
+  portions: Record<OrderSummary['portion'], number>
+  sate: Record<SateKey, number>
+}
+
+const priceSettings: PriceSettings = {
+  portions: {
+    '1 Porsi': 12000,
+    '1/2 Porsi': 10000
+  },
+  sate: {
+    usus: 2000,
+    ati: 2000,
+    ampela: 2000,
+    puyuh: 3000
+  }
 }
 
 const order = computed(() => orderSummary.value ?? fallbackOrder)
@@ -106,10 +124,11 @@ const summaryItems = computed<SummaryItem[]>(() => {
 })
 
 const totalPrice = computed(() => {
-  const basePrice = order.value.portion === '1 Porsi' ? 30000 : 22000
-  const sateTotal = Object.values(order.value.sate).reduce((total, quantity) => total + quantity, 0)
+  const basePrice = priceSettings.portions[order.value.portion]
+  const sateTotal = (Object.entries(order.value.sate) as Array<[SateKey, number]>)
+    .reduce((total, [key, quantity]) => total + (priceSettings.sate[key] * quantity), 0)
 
-  return basePrice + (sateTotal * 5000)
+  return basePrice + sateTotal
 })
 
 const formattedTotal = computed(() => new Intl.NumberFormat('id-ID', {
