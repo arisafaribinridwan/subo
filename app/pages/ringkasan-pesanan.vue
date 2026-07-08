@@ -46,6 +46,14 @@ interface SummaryItem {
 
 const order = computed(() => orderSummary.value ?? fallbackOrder)
 const portionLabel = computed(() => order.value.portion === '1 Porsi' ? '1 Porsi Besar' : '1/2 Porsi')
+const sateLabel = computed(() => {
+  const selectedSate = (Object.entries(order.value.sate) as Array<[SateKey, number]>)
+    .filter(([, quantity]) => quantity > 0)
+    .map(([key, quantity]) => `${sateLabels[key]} x${quantity}`)
+
+  return selectedSate.join(', ')
+})
+
 const omittedToppingLabel = computed(() => {
   const selectedToppings = toppingOrder
     .filter(topping => order.value.omittedToppings.includes(topping))
@@ -65,18 +73,16 @@ const omittedToppingLabel = computed(() => {
 const summaryItems = computed<SummaryItem[]>(() => {
   const items: SummaryItem[] = []
 
-  for (const [key, quantity] of Object.entries(order.value.sate) as Array<[SateKey, number]>) {
-    if (quantity > 0) {
-      items.push({
-        label: `${sateLabels[key]} x${quantity}`,
-        icon: 'i-lucide-utensils'
-      })
-    }
+  if (sateLabel.value) {
+    items.push({
+      label: sateLabel.value,
+      icon: 'i-lucide-utensils'
+    })
   }
 
   if (order.value.sambalLevel > 0) {
     items.push({
-      label: `Sambal Level ${order.value.sambalLevel}`,
+      label: `Sambal ${order.value.sambalLevel}`,
       icon: 'i-lucide-flame'
     })
   }
