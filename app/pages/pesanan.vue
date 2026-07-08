@@ -27,7 +27,6 @@ type OrderSchema = z.output<typeof orderSchema>
 type SateKey = keyof OrderSchema['sate']
 
 const toast = useToast()
-const form = useTemplateRef('orderForm')
 const submitIntent = ref<'add' | 'send'>('add')
 const extraMenuOpen = ref(false)
 const cart = useState<OrderSchema[]>('order-cart', () => [])
@@ -84,8 +83,6 @@ const sateItems: Array<{
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDD7S51EQQPbUQC53r4AoJYVMDuNnUH7MI5NlHUxYdWXiwqUNaKF28VF4KE6o5ju1UytG5AK11yo-Cm53AJjBMU_ppwTYDP8osNLvGcM4Drif0RhiUugwSv39m0m1H3iBBvpwzG4FGuVJz72N0fdU2Z2FC6BXpV7oVuWvbBYxhiRbLKIi9ia0JhWVWoPCjCwqJurZdxsuz0eHKzosiwUdUR3phGxV8IDV76whmpi4QlsJYCOclTFcZrjk8zY9TMudDg-J_DGzdYoruB'
   }
 ]
-
-const hasDraftName = computed(() => state.customerName.trim().length > 0)
 
 function cloneOrder(data: OrderSchema): OrderSchema {
   return {
@@ -175,13 +172,6 @@ async function onSubmit(event: FormSubmitEvent<OrderSchema>) {
 }
 
 async function handleSendOrder() {
-  submitIntent.value = 'send'
-
-  if (hasDraftName.value) {
-    await form.value?.submit()
-    return
-  }
-
   if (!cart.value.length) {
     toast.add({
       title: 'Belum ada pesanan',
@@ -245,7 +235,6 @@ async function handleSendOrder() {
 
         <UForm
           id="order-form"
-          ref="orderForm"
           :schema="orderSchema"
           :state="state"
           class="space-y-5"
@@ -494,6 +483,7 @@ async function handleSendOrder() {
           block
           icon="i-lucide-shopping-basket"
           :label="String(cart.length)"
+          :disabled="!cart.length"
           class="min-h-14 rounded-2xl font-extrabold"
           @click="handleSendOrder"
         />
