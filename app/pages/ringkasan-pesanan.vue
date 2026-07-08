@@ -154,7 +154,7 @@ function confirmOrder() {
 
 <template>
   <main class="min-h-svh overflow-y-auto bg-default text-default">
-    <header class="border-b border-muted bg-default px-5 py-5">
+    <header class="border-b border-muted bg-default px-5 py-5 shadow-sm backdrop-blur">
       <div class="flex items-center justify-between gap-4">
         <NuxtLink
           to="/"
@@ -179,13 +179,13 @@ function confirmOrder() {
       </div>
     </header>
 
-    <section class="space-y-6 px-5 py-9">
+    <section class="space-y-6 px-4 py-4">
       <div>
         <h1 class="m-0 text-2xl leading-8 font-extrabold tracking-normal text-highlighted">
           Cek Pesanan Anda
         </h1>
-        <p class="mt-2 max-w-80 text-base leading-6 font-medium text-muted">
-          Pastikan semua detail bubur favorit Anda sudah sesuai sebelum kami memprosesnya.
+        <p class="mt-2 text-xs font-medium text-muted">
+          Pastikan semua detail bubur kamu sudah sesuai ya.
         </p>
       </div>
 
@@ -222,7 +222,7 @@ function confirmOrder() {
               class="size-6 shrink-0"
             />
             <span
-              class="text-sm leading-5 font-extrabold tracking-normal text-default"
+              class="text-sm leading-5 tracking-normal text-default"
               :class="item.color === 'error' && 'text-error'"
             >
               {{ item.label }}
@@ -249,7 +249,7 @@ function confirmOrder() {
           <span class="text-xl leading-7 font-extrabold tracking-normal text-highlighted">
             Total Harga
           </span>
-          <span class="shrink-0 text-xl leading-7 font-extrabold tracking-normal text-error">
+          <span class="shrink-0 text-xl leading-7 font-extrabold tracking-normal text-success">
             {{ formattedTotal }}
           </span>
         </div>
@@ -258,15 +258,21 @@ function confirmOrder() {
       <div class="space-y-4 pb-[calc(env(safe-area-inset-bottom)+24px)]">
         <UButton
           type="button"
-          color="neutral"
-          variant="soft"
+          color="success"
+          variant="solid"
           size="xl"
           block
-          trailing-icon="i-lucide-send-horizontal"
-          label="Konfirmasi & Kirim"
-          class="min-h-15 rounded-lg text-lg leading-7 font-extrabold text-primary shadow-[0_14px_32px_rgb(0_0_0/0.04)]"
+          class="min-h-15 justify-center rounded-lg text-lg leading-7 font-extrabold text-white shadow-[0_14px_32px_rgb(0_0_0/0.04)] cursor-pointer"
           @click="confirmOrder"
-        />
+        >
+          <span class="inline-flex items-center justify-center gap-2">
+            <span>Konfirmasi & Kirim</span>
+            <UIcon
+              name="i-lucide-send-horizontal"
+              class="size-5 shrink-0"
+            />
+          </span>
+        </UButton>
 
         <UButton
           to="/pesanan"
