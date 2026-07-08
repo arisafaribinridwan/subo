@@ -30,7 +30,7 @@ const toast = useToast()
 const form = useTemplateRef('orderForm')
 const submitIntent = ref<'add' | 'send'>('add')
 const extraMenuOpen = ref(false)
-const cart = ref<OrderSchema[]>([])
+const cart = useState<OrderSchema[]>('order-cart', () => [])
 const orderSummary = useOrderSummary()
 
 const state = reactive<OrderSchema>({
