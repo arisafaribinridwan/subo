@@ -73,17 +73,11 @@ const omittedToppingLabel = computed(() => {
 const summaryItems = computed<SummaryItem[]>(() => {
   const items: SummaryItem[] = []
 
-  if (sateLabel.value) {
+  if (omittedToppingLabel.value) {
     items.push({
-      label: sateLabel.value,
-      icon: 'i-lucide-utensils'
-    })
-  }
-
-  if (order.value.sambalLevel > 0) {
-    items.push({
-      label: `Sambal ${order.value.sambalLevel}`,
-      icon: 'i-lucide-flame'
+      label: omittedToppingLabel.value,
+      icon: 'i-lucide-circle-slash',
+      color: 'error'
     })
   }
 
@@ -94,11 +88,17 @@ const summaryItems = computed<SummaryItem[]>(() => {
     })
   }
 
-  if (omittedToppingLabel.value) {
+  if (order.value.sambalLevel > 0) {
     items.push({
-      label: omittedToppingLabel.value,
-      icon: 'i-lucide-circle-slash',
-      color: 'error'
+      label: `Sambal ${order.value.sambalLevel}`,
+      icon: 'i-lucide-flame'
+    })
+  }
+
+  if (sateLabel.value) {
+    items.push({
+      label: sateLabel.value,
+      icon: 'i-lucide-utensils'
     })
   }
 
